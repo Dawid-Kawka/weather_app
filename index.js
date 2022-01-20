@@ -10,8 +10,6 @@ function startApp() {
                 lat = position.coords.latitude;
                 long = position.coords.longitude;
 
-                console.log("lat: ", lat, "long: ", long);
-
                 getWeatherData();
             }
         );
@@ -20,18 +18,26 @@ function startApp() {
 
 function getWeatherData() {
     let url = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&units=metric&appid=${apiKey}`;
-    console.log(url);
 
     fetch(url)
         .then(function (response) {
             response.json().then(function (data) {
-                console.log(data);
                 updateWeatherData(data);
             });
         });
 }
 
+
 function updateWeatherData(data) {
+    const dayTime = new Date();
+    var options = { weekday: 'long' }
+    var options2 = { month: 'long' }
+    document.getElementById("day-time").innerHTML = new Intl.DateTimeFormat('en-US', options).format(dayTime) + ", "
+        + dayTime.getDate() + " " + new Intl.DateTimeFormat('en-US', options2).format(dayTime);
+
+    const time = new Date();
+    document.getElementById("time").innerHTML = time.getHours() + ":" + time.getMinutes();
+
     const temp = data.main.temp.toFixed();
     document.getElementById("temp").innerHTML = temp + " <sup>o</sup>C";
 

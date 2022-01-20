@@ -32,9 +32,6 @@ function getWeatherData() {
 }
 
 function updateWeatherData(data) {
-    const city = data.name;
-    document.getElementById("city").innerHTML = city;
-
     const temp = data.main.temp.toFixed();
     document.getElementById("temp").innerHTML = temp + " <sup>o</sup>C";
 
@@ -56,4 +53,11 @@ function updateWeatherData(data) {
     const sunset = new Date(data.sys.sunset * 1000);
     document.getElementById("sunSet").innerHTML = sunset.getHours() + ":" + sunset.getMinutes();
 
+    let imgUrl = "http://openweathermap.org/img/wn/" + data.weather[0].icon + "@2x.png";
+    document.getElementById("currentWeatherImg").setAttribute("src", imgUrl);
+
+    const city = data.name;
+    const location = document.getElementById("locationLink");
+    location.innerHTML = city;
+    location.href = `https://openstreetmap.org/#map=15/${lat}/${long}`;
 }
